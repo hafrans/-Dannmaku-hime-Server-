@@ -47,13 +47,14 @@ class HSMTPClient
         // set OPT
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        //curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $arr);
         curl_setopt($ch, CURLOPT_USERAGENT, "HSMTP 1.0 / Lari Protocol is Submiter");
         $result = curl_exec($ch);
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if ($code != 200) {
-            throw new HSMTPException("Server Failed");
+            throw new HSMTPException("Server Failed:".$code);
         }
         $result = json_decode($result, true);
         if ($result['err_msg'] != "0") {
